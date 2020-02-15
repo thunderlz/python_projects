@@ -7,3 +7,5 @@ engine=create_engine('mysql+pymysql://root:751982leizhen@192.168.31.200:3306/lun
 #df=pd.read_sql('select * from jsondata order by time desc limit 1',con=engine)
 df=pd.read_sql('select * from chinaday',con=engine)
 print(df)
+dfjson=pd.read_sql('select * from jsondata',con=engine)
+
