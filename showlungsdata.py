@@ -8,5 +8,5 @@ engine=create_engine('mysql+pymysql://root:751982leizhen@192.168.31.200:3306/lun
 df=pd.read_sql('select * from chinaday',con=engine)
 print(df)
 dfjson=pd.read_sql('select * from jsondata',con=engine)
-print(dfjson[0:1])
+print(dfjson.iloc[-1:,1])
 #add a sss
