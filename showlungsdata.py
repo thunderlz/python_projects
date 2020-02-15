@@ -9,3 +9,4 @@ df=pd.read_sql('select * from chinaday',con=engine)
 print(df)
 dfjson=pd.read_sql('select * from jsondata',con=engine)
 print(dfjson[0:1])
+#add a sss
