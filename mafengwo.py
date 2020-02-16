@@ -22,19 +22,19 @@ ss.headers=headers
 urlmdds=urlhead+'/mdd/'
 #访问目的地主页
 rq=ss.get(urlmdds,headers=headers)
-htmlmdds=BeautifulSoup(rq.text,'html5lib')
+htmlmdds=BeautifulSoup(rq.text,'lxml')
 mdddic={mddlink.text:mddlink['href'] for mddlink in htmlmdds.find_all('a',{'href':re.compile('/travel-scenic-spot/mafengwo/*')})}
 
 driver=webdriver.Firefox(options=ffoptions)
 for mddkey in mdddic.keys():
     try:
-        print(urlhead+mdddic[mddkey])
+        print(mddkey,urlhead+mdddic[mddkey])
         driver.get(urlhead+mdddic[mddkey])
         time.sleep(random.randint(5,10))
-        bsobj=BeautifulSoup(driver.page_source)
+        bsobj=BeautifulSoup(driver.page_source,'lxml')
         glinks=[[mddkey,a['href']] for a in bsobj.find_all('a',{'href':re.compile('https://m.mafengwo.cn/gonglve/ziyouxing/.*')})]
         with open('glinks.csv','at') as f:
             csvwriter=csv.writer(f)
             csvwriter.writerows(glinks)
     except:
-        print(mddkey)
+        print(mddkey+' error!!!')
