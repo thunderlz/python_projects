@@ -27,11 +27,14 @@ mdddic={mddlink.text:mddlink['href'] for mddlink in htmlmdds.find_all('a',{'href
 
 driver=webdriver.Firefox(options=ffoptions)
 for mddkey in mdddic.keys():
-    print(urlhead+mdddic[mddkey])
-    driver.get(urlhead+mdddic[mddkey])
-    time.sleep(random.randint(5,10))
-    bsobj=BeautifulSoup(driver.page_source)
-    glinks=[[mddkey,a['href']] for a in bsobj.find_all('a',{'href':re.compile('https://m.mafengwo.cn/gonglve/ziyouxing/.*')})]
-    with open('glinks.csv','at') as f:
-        csvwriter=csv.writer(f)
-        csvwriter.writerows(glinks)
+    try:
+        print(urlhead+mdddic[mddkey])
+        driver.get(urlhead+mdddic[mddkey])
+        time.sleep(random.randint(5,10))
+        bsobj=BeautifulSoup(driver.page_source)
+        glinks=[[mddkey,a['href']] for a in bsobj.find_all('a',{'href':re.compile('https://m.mafengwo.cn/gonglve/ziyouxing/.*')})]
+        with open('glinks.csv','at') as f:
+            csvwriter=csv.writer(f)
+            csvwriter.writerows(glinks)
+    except:
+        print(mddkey)
