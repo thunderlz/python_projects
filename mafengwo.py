@@ -7,6 +7,8 @@ import re
 import time
 import random
 import csv
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 
 ffoptions=Options()
 ffoptions.add_argument('--headless')
