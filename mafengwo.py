@@ -23,18 +23,36 @@ urlmdds=urlhead+'/mdd/'
 #访问目的地主页
 rq=ss.get(urlmdds,headers=headers)
 htmlmdds=BeautifulSoup(rq.text,'lxml')
+#所有目的地的名称和链接
 mdddic={mddlink.text:mddlink['href'] for mddlink in htmlmdds.find_all('a',{'href':re.compile('/travel-scenic-spot/mafengwo/*')})}
 
 driver=webdriver.Firefox(options=ffoptions)
 for mddkey in mdddic.keys():
-    try:
-        print(mddkey,urlhead+mdddic[mddkey])
-        driver.get(urlhead+mdddic[mddkey])
-        time.sleep(random.randint(5,10))
-        bsobj=BeautifulSoup(driver.page_source,'lxml')
-        glinks=[[mddkey,a['href']] for a in bsobj.find_all('a',{'href':re.compile('https://m.mafengwo.cn/gonglve/ziyouxing/.*')})]
-        with open('glinks.csv','at') as f:
+    print('mdd:'+mddkey,urlhead+mdddic[mddkey])
+    driver.get(urlhead+mdddic[mddkey])
+    time.sleep(random.randint(5,10))
+    #获取攻略的链接
+    bsobj=BeautifulSoup(driver.page_source,'lxml')
+    glinks=[[mddkey,a['href']] for a in bsobj.find_all('a',{'href':re.compile('mafengwo.cn/gonglve/ziyouxing/.*')})]
+    with open('glinks.csv','at') as f:
+        csvwriter=csv.writer(f)
+        csvwriter.writerows(glinks)
+    
+    #这是下卷的语句  
+    for i in range(2,90):   #也可以设置一个较大的数，一下到底
+        js = "var q=document.documentElement.scrollTop={}".format(i*100)  #javascript语句
+        driver.execute_script(js)
+    #点击下一页
+    while True:
+        #游记的链接
+        yjlinks=[[mddkey,'http://www.mafengwo.cn'+a['href']] for a in bsobj.find('div',{'class':"_notelist"}).find_all('a',{'href':re.compile('/i/.*')})][::3]
+        print('yj:'+yjlinks[0][0])
+        with open('yjlinks.csv','at') as f:
             csvwriter=csv.writer(f)
-            csvwriter.writerows(glinks)
-    except:
-        print(mddkey+' error!!!')
+            csvwriter.writerows(yjlinks)
+        try:
+            driver.find_element_by_link_text('后一页').click()
+            time.sleep(random.randint(5,10))
+            bsobj=BeautifulSoup(driver.page_source,'lxml')
+        except:
+            break
