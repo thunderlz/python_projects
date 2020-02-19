@@ -20,4 +20,5 @@ with open(diskpath+'/log.txt','at') as logf:
       #      print(' {}有{}个文件'.format(key,len(mdic[key])))
             if len(mdic[key]) != 60:
                 logf.write('过去5天中，{}异常!!!!!!!!!!!!!\n'.format(key))
+        logf.write('已检查{}到{}的视频数据\n'.format(keys[0],keys[-1]))
 
