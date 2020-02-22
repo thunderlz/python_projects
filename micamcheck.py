@@ -21,6 +21,10 @@ with open(diskpath+'/log.txt','at') as logf:
         keys=[h.strftime('%Y%m%d%H') for h in pd.date_range(start=start,periods=120,freq='H')]
         for key in keys:
       #      print(' {}有{}个文件'.format(key,len(mdic[key])))
+            try:
+                mdic[key]
+            except:
+                logf.write('过去5天中，{}未发现!!!!!!!!!!!!!\n'.format(key))
             if len(mdic[key]) != 60:
                 logf.write('过去5天中，{}异常!!!!!!!!!!!!!\n'.format(key))
         logf.write('已检查{}到{}的视频数据\n'.format(keys[0],keys[-1]))
