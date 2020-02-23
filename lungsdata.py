@@ -22,6 +22,6 @@ dfchinaDayList=pd.DataFrame(data['chinaDayList'])
 dfpvcdata=pd.DataFrame(data['areaTree'][0]['children'])
 dfpvcdata['querytime']=datetime.now().strftime('%Y%m%d%H%M%S')
 #存入数据库
-dfpvcdata.astype('str').to_sql(name='pvcdata',con=engine,if_exists='append')
-dfchinaDayList.to_sql('chinaday',engine,if_exists='replace')
+#dfpvcdata.astype('str').to_sql(name='pvcdata',con=engine,if_exists='append')
+#dfchinaDayList.to_sql('chinaday',engine,if_exists='replace')
 engine.execute('insert into jsondata values(%s,%s)',(str(data),datetime.now().strftime('%Y%m%d%H%M%S')))
