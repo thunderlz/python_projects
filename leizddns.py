@@ -10,11 +10,12 @@ from aliyunsdkalidns.request.v20150109.AddDomainRecordRequest import AddDomainRe
 from aliyunsdkalidns.request.v20150109.DescribeSubDomainRecordsRequest import DescribeSubDomainRecordsRequest
 import urllib
 import json
+import sys
 
 class Leizddns():
-    def __init__(self,rr):
+    def __init__(self,rr,base):
         self.rr=rr
-        self.base='thunderlz.com'
+        self.base=base
         self.subdomain=self.rr+'.'+self.base
         self.ip=self.get_internet_ip()
         self.client=AcsClient('LTAI4FkuABR3tFbivPUKmMXs', 'aW7qXNiaWkuRREQuNJ2buogBtCEAOj', 'thunderlz@1599093817530509.onaliyun.com')
@@ -101,5 +102,5 @@ class Leizddns():
         return response
 
 if __name__ == '__main__':
-    leizddns=Leizddns('new')
+    leizddns=Leizddns(sys.argv[1],sys.argv[2])
     leizddns.refresh_ip()
