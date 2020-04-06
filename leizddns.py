@@ -1,3 +1,4 @@
+# 先安装两个python包，然后直接运行这个文件就可以了
 # pip install aliyun-python-sdk-core
 # pip install aliyun-python-sdk-alidns
 
