@@ -10,7 +10,9 @@ print(s.recv(1024).decode('utf-8'))
 send_datas = [getpass.getuser().encode('utf-8'), socket.gethostname().encode('utf-8'),
               datetime.datetime.now().strftime('%Y%m%d %H:%M:%S').encode('utf-8')]
 try:
-    send_datas.append(sys.argv[2])
+    send_datas.append((sys.argv[2]+'\n').encode('utf-8'))
+except:
+    pass
 
 for data in send_datas:
     # 发送数据:
