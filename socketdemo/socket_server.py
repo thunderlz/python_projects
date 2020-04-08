@@ -18,7 +18,7 @@ def tcplink(sock, addr):
         sock.send(('Hello, %s!' % data.decode('utf-8')).encode('utf-8'))
         print(data.decode('utf-8'))
         with open('/home/leizhen/socket_recv','at') as f:
-            f.write(data.decode('utf-8'),' ')
+            f.write(data.decode('utf-8')+', ')
 
     sock.close()
     print('Connection from %s:%s closed.' % addr)
