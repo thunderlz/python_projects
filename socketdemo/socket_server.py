@@ -10,9 +10,9 @@ print('Waiting for connection...')
 def tcplink(sock, addr):
     print('Accept new connection from %s:%s...' % addr)
     sock.send(b'Welcome!')
-    print(type(addr),len(addr))
-    # with open('/home/leizhen/socket_recv','at') as f:
-    #         f.write('{}:{}'.format(addr))
+    # print(type(addr),len(addr))
+    with open('/home/leizhen/socket_recv','at') as f:
+            f.write('{}:{}'.format(addr[0],addr[1]))
     while True:
         data = sock.recv(1024)
         time.sleep(1)
