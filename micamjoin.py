@@ -43,8 +43,8 @@ def fileProcessing(file_list):
 
 
 # 获取文件名并排序
-# vpath='/Volumes/micamsdir/xiaomi_camera_videos/5ce50c74d629/'
-vpath = '/Volumes/micamsdir/xiaomi_camera_videos/5ce50c581545/'
+vpath = '/Volumes/micamsdir/xiaomi_camera_videos/5ce50c74d629/'
+# vpath = '/Volumes/micamsdir/xiaomi_camera_videos/5ce50c581545/'
 vpathlist = []
 for vdir in glob.glob(vpath+'*'):
     vpathlist.extend(glob.glob(vdir+'/*'))
