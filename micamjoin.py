@@ -6,6 +6,7 @@ import os
 # import fnmatch
 # import re
 import subprocess
+import socket
 
 
 def fileProcessing(file_list):
@@ -43,8 +44,14 @@ def fileProcessing(file_list):
 
 
 # 获取文件名并排序
-vpath = '/Volumes/micamsdir/xiaomi_camera_videos/5ce50c74d629/'
-# vpath = '/Volumes/micamsdir/xiaomi_camera_videos/5ce50c581545/'
+if socket.gethostname()!='leiznbsrv':
+    vpath = '/Volumes/micamsdir/xiaomi_camera_videos/5ce50c74d629/'
+    # vpath = '/Volumes/micamsdir/xiaomi_camera_videos/5ce50c581545/'
+    tpath='/Users/leizhen/'
+else:
+    vpath='/mnt/data1/micam/xiaomi_camera_videos/5ce50c74d629/'
+    tpath='/home/leizhen/'
+
 vpathlist = []
 for vdir in glob.glob(vpath+'*'):
     vpathlist.extend(glob.glob(vdir+'/*'))
@@ -73,11 +80,11 @@ for vfile in vpathlist:
         # 输出视频
 # fourcc = cv2.VideoWriter_fourcc(*'H264')
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('/Users/leizhen/windowvideo.mp4',
+out = cv2.VideoWriter(tpath+'windowvideo.mp4',
                       fourcc, 25.0, dim, True)
 for i in ndvideo:
     out.write(i)
 out.release()
 
-filelist = ['/Users/leizhen/windowvideo.mp4']
+filelist = [tpath+'windowvideo.mp4']
 fileProcessing(filelist)
