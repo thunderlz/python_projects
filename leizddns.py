@@ -126,4 +126,4 @@ if __name__ == '__main__':
 # 0 * * * * /home/leizhen/anaconda3/bin/python /home/leizhen/githubrepos/python_projects/leizddns.py new thunderlz.com
     leizddns=Leizddns(sys.argv[1],sys.argv[2])
     leizddns.refresh_ip()
-    # leizddns.add_publicip('www.thunderlz.com')
+    leizddns.add_publicip('www.thunderlz.com')
