@@ -45,8 +45,8 @@ def fileProcessing(file_list):
 
 # 获取文件名并排序
 if socket.gethostname()!='leiznbsrv':
-    vpath = '/Volumes/micamsdir/xiaomi_camera_videos/5ce50c74d629/'
-    # vpath = '/Volumes/micamsdir/xiaomi_camera_videos/5ce50c581545/'
+    # vpath = '/Volumes/micamsdir/xiaomi_camera_videos/5ce50c74d629/'
+    vpath = '/Volumes/micamsdir/xiaomi_camera_videos/5ce50c581545/'
     tpath='/Users/leizhen/'
 else:
     vpath='/mnt/data1/micam/xiaomi_camera_videos/5ce50c74d629/'
