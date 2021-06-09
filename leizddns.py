@@ -11,6 +11,9 @@ from aliyunsdkalidns.request.v20150109.DescribeSubDomainRecordsRequest import De
 import urllib
 import json
 import sys
+import socket
+import getpass
+import datetime
 
 class Leizddns():
     def __init__(self,rr,base):
@@ -20,12 +23,15 @@ class Leizddns():
         self.ip=self.get_internet_ip()
         self.client=AcsClient('LTAI4FkuABR3tFbivPUKmMXs', 'aW7qXNiaWkuRREQuNJ2buogBtCEAOj', 'thunderlz@1599093817530509.onaliyun.com')
         self.des_relsult=self.Describe_SubDomain_Records('A',self.subdomain)
+        self.server='www.thunderlz.com'
         
 
     def refresh_ip(self):
         if self.des_relsult["TotalCount"] == 0:
             add_relsult = self.add_record("5","600","A",self.ip,self.rr,self.base)
             record_id = add_relsult["RecordId"]
+            #把IP地址传到服务器上
+            self.add_publicip(self.server)
             print("域名解析新增成功！{}".format(self.rr+':'+self.ip))
         #判断子域名解析记录查询结果，TotalCount为1表示存在这个子域名的解析记录，需要更新解析记录，更新记录需要用到RecordId，这个在查询函数中有返回des_relsult["DomainRecords"]["Record"][0]["RecordId"]
         elif self.des_relsult["TotalCount"] == 1:
@@ -35,6 +41,8 @@ class Leizddns():
             else:
                 record_id = self.des_relsult["DomainRecords"]["Record"][0]["RecordId"]
                 self.update_record("5","600","A",self.ip,self.rr,record_id)
+                #把IP地址传到服务器上
+                self.add_publicip(self.server)
                 print("域名解析更新成功！{}".format(self.rr+':'+self.ip))
         else:
             record_id = 0
@@ -101,6 +109,21 @@ class Leizddns():
         response = str(response, encoding='utf-8')
         return response
 
+    def add_publicip(self,server):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((server,9990))
+        print(s.recv(1024).decode('utf-8'))
+        send_datas=[socket.gethostname().encode('utf-8'),datetime.datetime.now().strftime('%Y%m%d %H:%M:%S').encode('utf-8'),self.ip.encode('utf-8')]
+        for data in send_datas:
+            # 发送数据:
+            s.send(data)
+            print(s.recv(1024).decode('utf-8'))
+        s.send(b'exit')
+        s.close()
+
 if __name__ == '__main__':
+# crontab -e
+# 0 * * * * /home/leizhen/anaconda3/bin/python /home/leizhen/githubrepos/python_projects/leizddns.py new thunderlz.com
     leizddns=Leizddns(sys.argv[1],sys.argv[2])
     leizddns.refresh_ip()
+    leizddns.add_publicip('www.thunderlz.com')
